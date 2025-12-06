@@ -98,8 +98,8 @@ namespace feederdikti_importer
             DataProdi.Add(new[] { "Sumber Daya Akuatik", "667a5410-0738-4b08-b9d6-22162606b2e4", "SDA", "53", "S2" });
             DataProdi.Add(new[] { "Teknologi Hasil Perikanan", "b6b022a1-926f-4976-8e45-7ec2f05065b6", "THPerikanan", "39", "S1" });
             DataProdi.Add(new[] { "Teknologi Hasil Pertanian", "00944eda-002b-4e1d-89e7-4005a6eed8d4", "THPertanian", "51", "S1" });
-            DataProdi.Add(new[] { "Teologi", "3b429372-393e-4085-99d7-11be20508aca", "Teologi", "77", "S2" });
-            DataProdi.Add(new[] { "Teologi Agama Kristen", "17046fb5-34d1-467b-9193-4bda68880239", "TAK", "21", "S1" });
+            DataProdi.Add(new[] { "Teologi", "3b429372-393e-4085-99d7-11be20508aca", "Teologi", "21", "S1" });
+            DataProdi.Add(new[] { "Teologi Agama Kristen", "17046fb5-34d1-467b-9193-4bda68880239", "TAK", "77", "S2" });
 
             var list = DataProdi.Where(a => a?.Length >= 3)
                 .Select(a => new ProdiItem { Name = a[0], Id = a[1], ShortName = a[2], KodeNIM = a[3], JenjangPendidikan = a[4] })
@@ -1165,11 +1165,11 @@ namespace feederdikti_importer
                     // Display on label
                     lblFileName.Text = $"{filePath}";
                     
-                    // Set database name to db_importer_feeder
-                    txtDBName.Text = "db_importer_feeder";
+                    // Set database name to db_importer_keuangan
+                    txtDBName.Text = "db_importer_keuangan";
                     
                     printLog($"Selected file: {filePath}");
-                    printLog($"Database set to: db_importer_feeder");
+                    printLog($"Database set to: db_importer_keuangan");
                 }
             }
         }
@@ -1315,15 +1315,53 @@ namespace feederdikti_importer
                     List<string> rowValues = new List<string>();
                     for (int col = 1; col <= headers.Count; col++)
                     {
-                        string cellValue = worksheet.Cells[row, col].Value?.ToString() ?? "";
+                        var cellValue = worksheet.Cells[row, col].Value;
+                        string cellString = FormatCellValue(cellValue);
                         // Escape CSV values
-                        cellValue = EscapeCsvValue(cellValue.Trim());
-                        rowValues.Add(cellValue);
+                        cellString = EscapeCsvValue(cellString.Trim());
+                        rowValues.Add(cellString);
                     }
 
                     // Write row to CSV (tab-delimited for better compatibility)
                     writer.WriteLine(string.Join("\t", rowValues));
                 }
+            }
+        }
+
+        private string FormatCellValue(object? cellValue)
+        {
+            if (cellValue == null)
+                return "";
+
+            // Handle numeric values to avoid floating-point precision issues
+            if (cellValue is double doubleValue)
+            {
+                // Check if it's an integer value
+                if (doubleValue == Math.Floor(doubleValue))
+                {
+                    return ((long)doubleValue).ToString();
+                }
+                else
+                {
+                    // For decimal values, use standard formatting
+                    return doubleValue.ToString("G15");
+                }
+            }
+            else if (cellValue is decimal decimalValue)
+            {
+                // For decimal type, check if it's an integer
+                if (decimalValue == Math.Floor(decimalValue))
+                {
+                    return ((long)decimalValue).ToString();
+                }
+                else
+                {
+                    return decimalValue.ToString();
+                }
+            }
+            else
+            {
+                return cellValue.ToString() ?? "";
             }
         }
 

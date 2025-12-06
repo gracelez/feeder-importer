@@ -255,7 +255,7 @@
             // 
             // btnRun
             // 
-            btnRun.Location = new Point(909, 956);
+            btnRun.Location = new Point(1078, 956);
             btnRun.Margin = new Padding(6, 7, 6, 7);
             btnRun.Name = "btnRun";
             btnRun.Size = new Size(161, 57);
@@ -266,7 +266,7 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(1082, 956);
+            btnCancel.Location = new Point(1087, 1184);
             btnCancel.Margin = new Padding(6, 7, 6, 7);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(161, 57);
@@ -367,7 +367,7 @@
             // cbxSeparateDatabase
             // 
             cbxSeparateDatabase.AutoSize = true;
-            cbxSeparateDatabase.Location = new Point(608, 965);
+            cbxSeparateDatabase.Location = new Point(782, 965);
             cbxSeparateDatabase.Margin = new Padding(6, 7, 6, 7);
             cbxSeparateDatabase.Name = "cbxSeparateDatabase";
             cbxSeparateDatabase.Size = new Size(271, 41);
