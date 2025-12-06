@@ -1313,6 +1313,8 @@ namespace feederdikti_importer
                 for (int row = 2; row <= worksheet.Dimension.Rows; row++)
                 {
                     List<string> rowValues = new List<string>();
+                    bool isRowEmpty = true;
+
                     for (int col = 1; col <= headers.Count; col++)
                     {
                         var cellValue = worksheet.Cells[row, col].Value;
@@ -1320,10 +1322,17 @@ namespace feederdikti_importer
                         // Escape CSV values
                         cellString = EscapeCsvValue(cellString.Trim());
                         rowValues.Add(cellString);
+
+                        // Check if row has any non-empty value
+                        if (!string.IsNullOrEmpty(cellString))
+                            isRowEmpty = false;
                     }
 
-                    // Write row to CSV (tab-delimited for better compatibility)
-                    writer.WriteLine(string.Join("\t", rowValues));
+                    // Write row to CSV only if it's not empty (tab-delimited for better compatibility)
+                    if (!isRowEmpty)
+                    {
+                        writer.WriteLine(string.Join("\t", rowValues));
+                    }
                 }
             }
         }
