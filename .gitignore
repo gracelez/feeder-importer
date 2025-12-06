@@ -1,0 +1,32 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# NuGet
+packages/
+.nuget/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Data folders (optional - uncomment if you want to exclude)
+# Data/
+# DataTodo/
+# DataDone/
+# DataFailed/
