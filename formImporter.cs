@@ -1333,39 +1333,18 @@ namespace feederdikti_importer
             if (cellValue == null)
                 return "";
 
-            // Handle numeric values to avoid floating-point precision issues
+            // Handle numeric values - convert all to integers
             if (cellValue is double doubleValue)
             {
-                // Round to 10 decimal places to eliminate floating-point errors
-                // This handles cases like 77000.0000000001 -> 77000
-                double rounded = Math.Round(doubleValue, 10);
-
-                // Check if it's an integer value (after rounding)
-                if (rounded == Math.Floor(rounded))
-                {
-                    return ((long)rounded).ToString();
-                }
-                else
-                {
-                    // For decimal values, format and remove trailing zeros
-                    return rounded.ToString("G15").TrimEnd('0').TrimEnd('.');
-                }
+                // Round to nearest integer
+                long intValue = (long)Math.Round(doubleValue);
+                return intValue.ToString();
             }
             else if (cellValue is decimal decimalValue)
             {
-                // For decimal type, round to 10 decimal places
-                decimal rounded = Math.Round(decimalValue, 10);
-                
-                // Check if it's an integer
-                if (rounded == Math.Floor(rounded))
-                {
-                    return ((long)rounded).ToString();
-                }
-                else
-                {
-                    // Format and remove trailing zeros
-                    return rounded.ToString().TrimEnd('0').TrimEnd('.');
-                }
+                // Round to nearest integer
+                long intValue = (long)Math.Round(decimalValue);
+                return intValue.ToString();
             }
             else
             {
