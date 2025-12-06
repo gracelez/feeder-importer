@@ -1347,8 +1347,8 @@ namespace feederdikti_importer
                 }
                 else
                 {
-                    // For decimal values, use standard formatting
-                    return rounded.ToString("G15");
+                    // For decimal values, format and remove trailing zeros
+                    return rounded.ToString("G15").TrimEnd('0').TrimEnd('.');
                 }
             }
             else if (cellValue is decimal decimalValue)
@@ -1363,7 +1363,8 @@ namespace feederdikti_importer
                 }
                 else
                 {
-                    return rounded.ToString();
+                    // Format and remove trailing zeros
+                    return rounded.ToString().TrimEnd('0').TrimEnd('.');
                 }
             }
             else
